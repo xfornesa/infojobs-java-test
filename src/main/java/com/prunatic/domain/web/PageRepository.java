@@ -1,4 +1,6 @@
-package com.prunatic.model;
+package com.prunatic.domain.web;
+
+import com.prunatic.domain.web.Page;
 
 public interface PageRepository {
     void add(Page page);

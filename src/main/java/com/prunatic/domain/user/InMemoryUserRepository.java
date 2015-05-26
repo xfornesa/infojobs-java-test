@@ -1,5 +1,7 @@
-package com.prunatic.model;
+package com.prunatic.domain.user;
 
+import com.prunatic.domain.user.User;
+import com.prunatic.domain.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;

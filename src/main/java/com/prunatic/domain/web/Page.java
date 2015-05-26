@@ -1,4 +1,4 @@
-package com.prunatic.model;
+package com.prunatic.domain.web;
 
 public class Page {
     private final String name;

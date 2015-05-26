@@ -1,4 +1,4 @@
-package com.prunatic.model;
+package com.prunatic.domain.user;
 
 public class User {
     private final String username;

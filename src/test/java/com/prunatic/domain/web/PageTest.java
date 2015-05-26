@@ -1,5 +1,6 @@
-package com.prunatic.model;
+package com.prunatic.domain.web;
 
+import com.prunatic.domain.web.Page;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,4 +1,4 @@
-package com.prunatic.model;
+package com.prunatic.domain.authentication;
 
 public class UserSession {
 

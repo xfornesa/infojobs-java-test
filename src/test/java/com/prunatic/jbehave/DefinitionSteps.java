@@ -1,8 +1,15 @@
 package com.prunatic.jbehave;
 
-import com.prunatic.model.*;
+import com.prunatic.domain.authentication.*;
+import com.prunatic.domain.authorization.PageAuthorizationService;
+import com.prunatic.domain.user.InMemoryUserRepository;
+import com.prunatic.domain.user.User;
+import com.prunatic.domain.user.UserCredentials;
+import com.prunatic.domain.user.UserRepository;
+import com.prunatic.domain.web.InMemoryPageRepository;
+import com.prunatic.domain.web.Page;
+import com.prunatic.domain.web.PageRepository;
 import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Pending;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
@@ -15,7 +22,7 @@ public class DefinitionSteps {
     private UserRepository userRepository = new InMemoryUserRepository();
     private PageRepository pageRepository = new InMemoryPageRepository();
     private UserSessionRepository sessionRepository = new InMemorySessionRepository();
-    private CredentialsValidationService validationService = new CredentialsValidationService(userRepository, sessionRepository);
+    private CredentialsAuthenticateService validationService = new CredentialsAuthenticateService(userRepository, sessionRepository);
     private UserSession lastValidSession = null;
     private Page currentBrowsePage = null;
 

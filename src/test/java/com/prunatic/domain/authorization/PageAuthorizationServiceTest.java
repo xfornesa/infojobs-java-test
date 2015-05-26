@@ -1,5 +1,7 @@
-package com.prunatic.model;
+package com.prunatic.domain.authorization;
 
+import com.prunatic.domain.web.Page;
+import com.prunatic.domain.authentication.UserSession;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +18,7 @@ public class PageAuthorizationServiceTest {
 
     @Test
     public void shouldGrantWhenUserHasRequiredRole() throws Exception {
+        String aUsername = "aUsername";
         String[] userRoles = {"aRole"};
         Page page = new Page("aPage", "aRole");
         UserSession session = new UserSession(userRoles);
@@ -27,6 +30,7 @@ public class PageAuthorizationServiceTest {
 
     @Test
     public void shouldNotGrantWhenUserHasNoRequiredRole() throws Exception {
+        String aUsername = "aUsername";
         String[] userRoles = {"aDifferentRole"};
         Page page = new Page("aPage", "aRole");
         UserSession session = new UserSession(userRoles);

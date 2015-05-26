@@ -1,5 +1,7 @@
-package com.prunatic.model;
+package com.prunatic.domain.web;
 
+import com.prunatic.domain.web.InMemoryPageRepository;
+import com.prunatic.domain.web.Page;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,5 +36,17 @@ public class InMemoryPageRepositoryTest {
         Page actual = sut.pageByName(aName);
 
         assertSame(expectedPage, actual);
+    }
+
+    @Test
+    public void shouldReturnNullWhenNoPageFoundByName() throws Exception {
+        String aName = "aName";
+        String aDifferentName = "aDifferentName";
+        Page expectedPage = new Page(aName, "aRole");
+        sut.add(expectedPage);
+
+        Page actual = sut.pageByName(aDifferentName);
+
+        assertNull(actual);
     }
 }

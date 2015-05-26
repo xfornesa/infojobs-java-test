@@ -1,4 +1,7 @@
-package com.prunatic.model;
+package com.prunatic.domain.authorization;
+
+import com.prunatic.domain.web.Page;
+import com.prunatic.domain.authentication.UserSession;
 
 import java.util.ArrayList;
 import java.util.Arrays;

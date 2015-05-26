@@ -1,11 +1,15 @@
-package com.prunatic.model;
+package com.prunatic.domain.authentication;
 
-public class CredentialsValidationService {
+import com.prunatic.domain.user.User;
+import com.prunatic.domain.user.UserCredentials;
+import com.prunatic.domain.user.UserRepository;
+
+public class CredentialsAuthenticateService {
 
     private UserRepository userRepository;
     private UserSessionRepository sessionRepository;
 
-    public CredentialsValidationService(UserRepository userRepository, UserSessionRepository sessionRepository) {
+    public CredentialsAuthenticateService(UserRepository userRepository, UserSessionRepository sessionRepository) {
 
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;

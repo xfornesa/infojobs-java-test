@@ -1,4 +1,4 @@
-package com.prunatic.model;
+package com.prunatic.domain.web;
 
 import java.util.ArrayList;
 import java.util.List;

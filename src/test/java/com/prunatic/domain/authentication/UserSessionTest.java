@@ -1,4 +1,4 @@
-package com.prunatic.model;
+package com.prunatic.domain.authentication;
 
 import org.junit.Test;
 
@@ -9,6 +9,7 @@ public class UserSessionTest {
     @Test
     public void shouldKeepUserRoles()
     {
+        String username = "aUsername";
         String[] someRoles = {"aRole"};
         UserSession sut = new UserSession(someRoles);
 

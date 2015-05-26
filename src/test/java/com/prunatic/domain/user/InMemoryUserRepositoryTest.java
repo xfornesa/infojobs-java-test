@@ -1,4 +1,4 @@
-package com.prunatic.model;
+package com.prunatic.domain.user;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,5 +35,17 @@ public class InMemoryUserRepositoryTest {
         User actual = sut.userByUsername(aUsername);
 
         assertSame(expectedUser, actual);
+    }
+
+    @Test
+    public void shouldReturnNullWhenNoUserFoundByUsername() throws Exception {
+        String aUsername = "aUsername";
+        String aDifferentUsername = "aDifferentUsername";
+        User expectedUser = User.fromRegistration(aUsername, new String[]{"aRole"});
+        sut.add(expectedUser);
+
+        User actual = sut.userByUsername(aDifferentUsername);
+
+        assertNull(actual);
     }
 }

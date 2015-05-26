@@ -1,6 +1,4 @@
-package com.prunatic.model;
-
-import com.prunatic.model.User;
+package com.prunatic.domain.user;
 
 public interface UserRepository {
     void add(User user);
