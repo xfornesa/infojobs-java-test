@@ -20,4 +20,8 @@ public class User {
     public String[] roles() {
         return this.roles;
     }
+
+    public UserCredentials credentials() {
+        return UserCredentials.fromUsername(username);
+    }
 }

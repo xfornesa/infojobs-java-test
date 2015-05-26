@@ -16,12 +16,24 @@ public class InMemoryUserRepositoryTest {
 
     @Test
     public void shouldLetAddUsers() throws Exception {
-        String[] someRoles = {"aRole"};
         String aUsername = "aUsername";
+        String[] someRoles = {"aRole"};
         User user = User.fromRegistration(aUsername, someRoles);
 
         sut.add(user);
 
         assertEquals(1, sut.allUsers().length);
+    }
+
+    @Test
+    public void shouldFindUserByUsername()
+    {
+        String aUsername = "aUsername";
+        User expectedUser = User.fromRegistration(aUsername, new String[]{"aRole"});
+        sut.add(expectedUser);
+
+        User actual = sut.userByUsername(aUsername);
+
+        assertSame(expectedUser, actual);
     }
 }

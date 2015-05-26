@@ -16,6 +16,15 @@ public class InMemoryUserRepository implements UserRepository {
         elements.add(user);
     }
 
+    public User userByUsername(String username) {
+        for(User user : elements.toArray(new User[elements.size()])) {
+            if (user.username().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public User[] allUsers() {
         return elements.toArray(new User[elements.size()]);
     }

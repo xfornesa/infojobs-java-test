@@ -24,4 +24,15 @@ public class InMemoryPageRepositoryTest {
 
         assertEquals(1, sut.allPages().length);
     }
+
+    @Test
+    public void shouldFindPageByName() throws Exception {
+        String aName = "aName";
+        Page expectedPage = new Page(aName, "aRole");
+        sut.add(expectedPage);
+
+        Page actual = sut.pageByName(aName);
+
+        assertSame(expectedPage, actual);
+    }
 }
