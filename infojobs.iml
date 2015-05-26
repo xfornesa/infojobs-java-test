@@ -13,7 +13,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="net.thucydides:thucydides-core:0.9.226" level="project" />
     <orderEntry type="library" name="net.thucydides:thucydides-jbehave-plugin:0.9.275" level="project" />
-    <orderEntry type="library" name="org.slf4j:slf4j-simple:1.7.12" level="project" />
     <orderEntry type="library" name="Maven: net.thucydides:thucydides-core:0.9.268" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.4.0-rc3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.4.0-rc3" level="project" />

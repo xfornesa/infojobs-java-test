@@ -1,19 +1,19 @@
-package com.prunatic.user;
+package com.prunatic.model;
 
-import junit.framework.TestCase;
+import com.prunatic.model.User;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class UserTest extends TestCase {
+public class UserTest {
 
     @Test
-    public void testFromRegistration() throws Exception {
+    public void createFromRegistration() throws Exception {
         String[] someRoles = {"aRole"};
         String aUsername = "aUsername";
         User user = User.fromRegistration(aUsername, someRoles);
 
         assertEquals(aUsername, user.username());
-        assertEquals(someRoles, user.roles());
+        assertArrayEquals(someRoles, user.roles());
     }
 }
