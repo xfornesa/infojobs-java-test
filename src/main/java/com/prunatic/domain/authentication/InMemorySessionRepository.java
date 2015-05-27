@@ -11,8 +11,29 @@ public class InMemorySessionRepository implements UserSessionRepository {
         elements = new ArrayList<UserSession>();
     }
 
+    @Override
     public void add(UserSession session) {
         elements.add(session);
+    }
+
+    @Override
+    public boolean validate(UserSession session) {
+        boolean isValid = elements.contains(session);
+        if (isValid) {
+            refresh(session);
+        }
+
+        return isValid;
+    }
+
+    @Override
+    public void refresh(UserSession session) {
+        session.increaseExpiringDate(TTL_MINUTES);
+    }
+
+    @Override
+    public void invalidate(UserSession session) {
+        elements.remove(session);
     }
 
     public UserSession[] findAllSessions() {

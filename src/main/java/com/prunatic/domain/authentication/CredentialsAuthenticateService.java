@@ -15,7 +15,7 @@ public class CredentialsAuthenticateService {
         this.sessionRepository = sessionRepository;
     }
 
-    public UserSession validate(String username, UserCredentials credentials) throws InvalidArgumentException {
+    public UserSession authenticate(String username, UserCredentials credentials) throws InvalidArgumentException {
         User user = userRepository.userByUsername(username);
         if (user == null) {
             throw new InvalidArgumentException();

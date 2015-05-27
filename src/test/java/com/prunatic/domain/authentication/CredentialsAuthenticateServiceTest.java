@@ -40,21 +40,21 @@ public class CredentialsAuthenticateServiceTest {
 
     @Test
     public void shouldCreateUserSessionWhenCredentialsAreValid() throws Exception, InvalidArgumentException {
-        UserSession actual = sut.validate(aUsername, someCredentials);
+        UserSession actual = sut.authenticate(aUsername, someCredentials);
 
         assertNotNull(actual);
     }
 
     @Test
     public void shouldReturnNullWhenCredentialsAreNotValid() throws Exception, InvalidArgumentException {
-        UserSession actual = sut.validate(aUsername, someWrongCredentials);
+        UserSession actual = sut.authenticate(aUsername, someWrongCredentials);
 
         assertNull(actual);
     }
 
     @Test
     public void shouldPersistSessionWhenCredentialsAreValid() throws Exception, InvalidArgumentException {
-        UserSession actual = sut.validate(aUsername, someCredentials);
+        UserSession actual = sut.authenticate(aUsername, someCredentials);
 
         verify(sessionRepository).add(actual);
     }
@@ -63,6 +63,6 @@ public class CredentialsAuthenticateServiceTest {
     public void shouldRaiseExceptionWhenNoUserFound() throws Exception, InvalidArgumentException {
         when(userRepository.userByUsername(aUsername)).thenReturn(null);
 
-        UserSession actual = sut.validate(aUsername, someCredentials);
+        UserSession actual = sut.authenticate(aUsername, someCredentials);
     }
 }

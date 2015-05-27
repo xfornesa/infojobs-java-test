@@ -1,7 +1,9 @@
 package com.prunatic.jbehave;
 
 import com.prunatic.domain.authentication.*;
+import com.prunatic.domain.authorization.LoginRequiredException;
 import com.prunatic.domain.authorization.PageAuthorizationService;
+import com.prunatic.domain.authorization.SessionExpiredException;
 import com.prunatic.domain.user.InMemoryUserRepository;
 import com.prunatic.domain.user.User;
 import com.prunatic.domain.user.UserCredentials;
@@ -13,18 +15,32 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.junit.Assert;
 
 import java.util.Map;
 
 public class DefinitionSteps {
 
-    private UserRepository userRepository = new InMemoryUserRepository();
-    private PageRepository pageRepository = new InMemoryPageRepository();
-    private UserSessionRepository sessionRepository = new InMemorySessionRepository();
-    private CredentialsAuthenticateService validationService = new CredentialsAuthenticateService(userRepository, sessionRepository);
-    private UserSession lastValidSession = null;
+    private UserRepository userRepository;
+    private PageRepository pageRepository;
+    private UserSessionRepository sessionRepository;
+    private CredentialsAuthenticateService authenticationService;
+    private PageAuthorizationService authorizationService;
+    private UserSession currentSession = null;
     private Page currentBrowsePage = null;
+    private boolean lastPageAuthorizationResult = false;
+    private String lastBrowsePageException = "";
+    private DateTime currentSessionExpiringTime = null;
+
+    public DefinitionSteps() {
+        userRepository = new InMemoryUserRepository();
+        pageRepository = new InMemoryPageRepository();
+        sessionRepository = new InMemorySessionRepository();
+        authenticationService = new CredentialsAuthenticateService(userRepository, sessionRepository);
+        authorizationService = new PageAuthorizationService(sessionRepository);
+    }
 
     @Given("it exists the following registered users: $users")
     public void givenSomeUsers(ExamplesTable users) {
@@ -46,28 +62,75 @@ public class DefinitionSteps {
         }
     }
 
-    @Given("user '$username' has validated his credentials")
-    public void validateUserCredentials(String username) {
+    @Given("user '$username' has authenticated his credentials")
+    public void authenticateUserCredentials(String username) {
         User user = userRepository.userByUsername(username);
         UserCredentials credentials = user.credentials();
         try {
-            lastValidSession = validationService.validate(username, credentials);
+            currentSession = authenticationService.authenticate(username, credentials);
         } catch (InvalidArgumentException exception) {
-            lastValidSession = null;
+            currentSession = null;
         }
     }
 
-    @When("logged in user browses the page '$pageName'")
-    public void browsePage(String pageName) {
-        Assert.assertNotNull(lastValidSession);
+    @When("the user browses the page '$pageName'")
+    public void browsePageAuthenticated(String pageName) {
+        Assert.assertNotNull(currentSession);
         currentBrowsePage = pageRepository.pageByName(pageName);
+
+        authorizePage(currentSession, currentBrowsePage);
+    }
+
+    @Given("an unauthenticated user browses the page '$pageName'")
+    public void browsePageUnauthenticated(String pageName) {
+        Assert.assertNull(currentSession);
+        currentBrowsePage = pageRepository.pageByName(pageName);
+
+        authorizePage(currentSession, currentBrowsePage);
+    }
+
+    private void authorizePage(UserSession session, Page page) {
+        try {
+            lastPageAuthorizationResult = authorizationService.authorize(page, session);
+        } catch (LoginRequiredException | SessionExpiredException e) {
+            lastBrowsePageException = e.getMessage();
+        }
     }
 
     @Then("he is granted for seeing that page")
-    public void userIsGrantedForPage() {
-        Assert.assertNotNull(currentBrowsePage);
-        PageAuthorizationService authorizationService = new PageAuthorizationService();
-        boolean isGranted = authorizationService.grant(currentBrowsePage, lastValidSession);
-        Assert.assertTrue(isGranted);
+    public void userIsGrantedForPage() throws SessionExpiredException {
+        Assert.assertTrue(lastPageAuthorizationResult);
+    }
+
+    @Then("he is not granted for seeing that page")
+    public void userIsNotGrantedForPage() throws SessionExpiredException {
+        Assert.assertFalse(lastPageAuthorizationResult);
+    }
+
+    @Given("his session has expired")
+    public void expireSession() {
+        sessionRepository.invalidate(currentSession);
+    }
+
+    @Then("he will receive a message like '$message'")
+    public void userIsNotGrantedForPage(String message) {
+        Assert.assertEquals(message, lastBrowsePageException);
+    }
+
+    @When("his session is validated")
+    public void validCurrentSession() {
+        if (currentSession != null) {
+            currentSessionExpiringTime = currentSession.expiresAt();
+        }
+        sessionRepository.validate(currentSession);
+    }
+
+    @Then("its expiring time will be increased by $minutes more minutes")
+    public void checkSessionExpiringTime(int minutes) {
+        Assert.assertNotNull(currentSessionExpiringTime);
+        DateTime actualExpiringTime = currentSession.expiresAt();
+        Interval interval = new Interval(currentSessionExpiringTime, actualExpiringTime);
+        int diffInMinutes = (int) interval.toDuration().getStandardMinutes();
+        Assert.assertEquals(minutes, diffInMinutes);
     }
 }
