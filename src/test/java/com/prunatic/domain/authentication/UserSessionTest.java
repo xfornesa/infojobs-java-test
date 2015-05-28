@@ -2,28 +2,39 @@ package com.prunatic.domain.authentication;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class UserSessionTest {
 
+    private UserSession sut;
+
+    @Before
+    public void setUp() throws Exception {
+        sut = new UserSession(new String[]{"aRole"});
+    }
+
     @Test
     public void shouldKeepUserRoles()
     {
-        String[] someRoles = {"aRole"};
-        UserSession sut = new UserSession(someRoles);
-
         String[] actual = sut.userRoles();
 
-        assertArrayEquals(someRoles, actual);
+        assertArrayEquals(new String[]{"aRole"}, actual);
+    }
+
+    @Test
+    public void shouldSetExpiringTimeSomeMinutesAfterNow()
+    {
+        DateTime actual = sut.expiresAt();
+
+        assertTrue(actual.isAfterNow());
     }
 
     @Test
     public void shouldLetIncreaseExpiringTime()
     {
-        String[] someRoles = {"aRole"};
-        UserSession sut = new UserSession(someRoles);
         DateTime beforeExpiringDate = sut.expiresAt();
         int minutes = 3;
 
@@ -33,5 +44,14 @@ public class UserSessionTest {
         Interval interval = new Interval(beforeExpiringDate, afterExpiringDate);
         int diffInMinutes = (int) interval.toDuration().getStandardMinutes();
         assertEquals(minutes, diffInMinutes);
+    }
+
+    @Test
+    public void shouldLetExpire()
+    {
+        sut.expire();
+
+        DateTime expiringTime = sut.expiresAt();
+        assertTrue(expiringTime.isBeforeNow());
     }
 }

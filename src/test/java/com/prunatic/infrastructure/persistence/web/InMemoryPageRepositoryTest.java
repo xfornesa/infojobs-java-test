@@ -1,7 +1,7 @@
-package com.prunatic.domain.web;
+package com.prunatic.infrastructure.persistence.web;
 
-import com.prunatic.domain.web.InMemoryPageRepository;
 import com.prunatic.domain.web.Page;
+import com.prunatic.infrastructure.persistence.web.InMemoryPageRepository;
 import org.junit.Before;
 import org.junit.Test;
 

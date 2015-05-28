@@ -13,4 +13,6 @@ public interface UserSessionRepository {
     void refresh(UserSession session);
 
     void invalidate(UserSession session);
+
+    UserSession[] findAllSessions();
 }

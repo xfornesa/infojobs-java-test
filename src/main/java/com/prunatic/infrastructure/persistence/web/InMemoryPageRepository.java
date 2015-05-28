@@ -1,4 +1,7 @@
-package com.prunatic.domain.web;
+package com.prunatic.infrastructure.persistence.web;
+
+import com.prunatic.domain.web.Page;
+import com.prunatic.domain.web.PageRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,7 @@
-package com.prunatic.domain.user;
+package com.prunatic.infrastructure.persistence.user;
 
+import com.prunatic.domain.user.User;
+import com.prunatic.infrastructure.persistence.user.InMemoryUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 

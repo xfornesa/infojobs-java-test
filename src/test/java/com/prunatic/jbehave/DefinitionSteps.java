@@ -4,13 +4,14 @@ import com.prunatic.domain.authentication.*;
 import com.prunatic.domain.authorization.LoginRequiredException;
 import com.prunatic.domain.authorization.PageAuthorizationService;
 import com.prunatic.domain.authorization.SessionExpiredException;
-import com.prunatic.domain.user.InMemoryUserRepository;
+import com.prunatic.infrastructure.persistence.user.InMemoryUserRepository;
 import com.prunatic.domain.user.User;
 import com.prunatic.domain.user.UserCredentials;
 import com.prunatic.domain.user.UserRepository;
-import com.prunatic.domain.web.InMemoryPageRepository;
+import com.prunatic.infrastructure.persistence.web.InMemoryPageRepository;
 import com.prunatic.domain.web.Page;
 import com.prunatic.domain.web.PageRepository;
+import com.prunatic.infrastructure.persistence.authentication.InMemorySessionRepository;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -33,6 +34,7 @@ public class DefinitionSteps {
     private boolean lastPageAuthorizationResult = false;
     private String lastBrowsePageException = "";
     private DateTime currentSessionExpiringTime = null;
+    private String currentUsername = null;
 
     public DefinitionSteps() {
         userRepository = new InMemoryUserRepository();
@@ -71,6 +73,7 @@ public class DefinitionSteps {
         } catch (InvalidArgumentException exception) {
             currentSession = null;
         }
+        currentUsername = username;
     }
 
     @When("the user browses the page '$pageName'")
@@ -124,7 +127,6 @@ public class DefinitionSteps {
         }
         sessionRepository.validate(currentSession);
     }
-
     @Then("its expiring time will be increased by $minutes more minutes")
     public void checkSessionExpiringTime(int minutes) {
         Assert.assertNotNull(currentSessionExpiringTime);
@@ -132,5 +134,20 @@ public class DefinitionSteps {
         Interval interval = new Interval(currentSessionExpiringTime, actualExpiringTime);
         int diffInMinutes = (int) interval.toDuration().getStandardMinutes();
         Assert.assertEquals(minutes, diffInMinutes);
+    }
+
+    @When("he logs out")
+    public void logout() {
+        if (currentSession != null) {
+            sessionRepository.invalidate(currentSession);
+            currentSession = null;
+        }
+    }
+
+    @Then("his sessions should be destroyed")
+    public void checkUserSessionIsDestroyed() {
+        Assert.assertNull(currentSession);
+        UserSession[] activeSessions = sessionRepository.findAllSessions();
+        Assert.assertEquals(0, activeSessions.length);
     }
 }

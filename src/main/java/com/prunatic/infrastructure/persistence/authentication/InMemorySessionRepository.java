@@ -1,4 +1,8 @@
-package com.prunatic.domain.authentication;
+package com.prunatic.infrastructure.persistence.authentication;
+
+import com.prunatic.domain.authentication.UserSession;
+import com.prunatic.domain.authentication.UserSessionRepository;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +22,20 @@ public class InMemorySessionRepository implements UserSessionRepository {
 
     @Override
     public boolean validate(UserSession session) {
-        boolean isValid = elements.contains(session);
+        boolean exists = elements.contains(session);
+        boolean hasNotExpired = checkExpiringTime(session);
+        boolean isValid = exists && hasNotExpired;
         if (isValid) {
             refresh(session);
         }
 
         return isValid;
+    }
+
+    private boolean checkExpiringTime(UserSession session) {
+        DateTime expiringTime = session.expiresAt();
+
+        return expiringTime.isAfterNow();
     }
 
     @Override
@@ -34,8 +46,10 @@ public class InMemorySessionRepository implements UserSessionRepository {
     @Override
     public void invalidate(UserSession session) {
         elements.remove(session);
+        session.expire();
     }
 
+    @Override
     public UserSession[] findAllSessions() {
         return elements.toArray(new UserSession[elements.size()]);
     }

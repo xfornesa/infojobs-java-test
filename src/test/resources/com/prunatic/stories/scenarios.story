@@ -37,4 +37,7 @@ Given user 'user1' has authenticated his credentials
 When his session is validated
 Then its expiring time will be increased by 5 more minutes
 
-
+Scenario: logout user session
+Given user 'user1' has authenticated his credentials
+When he logs out
+Then his sessions should be destroyed

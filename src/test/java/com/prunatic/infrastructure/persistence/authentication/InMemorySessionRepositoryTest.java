@@ -1,5 +1,6 @@
-package com.prunatic.domain.authentication;
+package com.prunatic.infrastructure.persistence.authentication;
 
+import com.prunatic.domain.authentication.UserSession;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,10 +45,18 @@ public class InMemorySessionRepositoryTest {
     }
 
     @Test
-    public void shouldNotValidateSessionsWhenExpired() throws Exception {
+    public void shouldNotValidateSessionsWhenDoesNotExist() throws Exception {
         UserSession session = new UserSession(new String[]{"aRole"});
+
+        boolean actual = sut.validate(session);
+
+        assertFalse(actual);
+    }
+
+    @Test
+    public void shouldNotValidateSessionsWhenHasExpired() throws Exception {
+        UserSession session = new UserSession(new String[]{"aRole"}, -1);
         sut.add(session);
-        sut.invalidate(session);
 
         boolean actual = sut.validate(session);
 
