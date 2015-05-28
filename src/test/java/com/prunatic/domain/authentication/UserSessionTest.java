@@ -13,7 +13,7 @@ public class UserSessionTest {
 
     @Before
     public void setUp() throws Exception {
-        sut = new UserSession(new String[]{"aRole"});
+        sut = new UserSession("aUsername", new String[]{"aRole"});
     }
 
     @Test

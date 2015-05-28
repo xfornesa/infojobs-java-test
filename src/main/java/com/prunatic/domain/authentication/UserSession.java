@@ -5,16 +5,22 @@ import org.joda.time.DateTime;
 public class UserSession {
 
     public static final int EXPIRING_IN_MINUTES = 5;
+    private String username;
     private DateTime expiresAt;
     private String[] userRoles;
 
-    public UserSession(String[] userRoles) {
-        this(userRoles, EXPIRING_IN_MINUTES);
+    public UserSession(String username, String[] userRoles) {
+        this(username, userRoles, EXPIRING_IN_MINUTES);
     }
 
-    public UserSession(String[] userRoles, int expiringInMinutes) {
+    public UserSession(String username, String[] userRoles, int expiringInMinutes) {
+        this.username = username;
         this.userRoles = userRoles;
         this.expiresAt = new DateTime().plusMinutes(expiringInMinutes);
+    }
+
+    public String username() {
+        return username;
     }
 
     public String[] userRoles() {

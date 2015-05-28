@@ -21,9 +21,9 @@ public class PageAuthorizationServiceTest {
     @Before
     public void setUp() throws Exception {
         page = new Page("aPage", "aRole");
-        authorizedSession = new UserSession(new String[]{"aRole"});
-        unAuthorizedSession = new UserSession(new String[]{"aDifferentRole"});
-        expiredSession = new UserSession(new String[]{"aDifferentRole"});
+        authorizedSession = new UserSession("aUsername", new String[]{"aRole"});
+        unAuthorizedSession = new UserSession("aUsername", new String[]{"aDifferentRole"});
+        expiredSession = new UserSession("aUsername", new String[]{"aDifferentRole"});
         sessionRepository = mock(UserSessionRepository.class);
         when(sessionRepository.validate(authorizedSession)).thenReturn(true);
         when(sessionRepository.validate(unAuthorizedSession)).thenReturn(true);

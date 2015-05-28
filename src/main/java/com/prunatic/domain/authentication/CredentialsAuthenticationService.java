@@ -22,7 +22,7 @@ public class CredentialsAuthenticationService {
         }
         UserCredentials toValidate = UserCredentials.fromUsername(username);
         if (credentials.equals(toValidate)) {
-            UserSession session = new UserSession(user.roles());
+            UserSession session = new UserSession(username, user.roles());
             sessionRepository.add(session);
 
             return session;

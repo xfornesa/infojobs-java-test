@@ -17,7 +17,7 @@ public class InMemorySessionRepositoryTest {
 
     @Test
     public void shouldLetAddUserSessions() throws Exception {
-        UserSession session = new UserSession(new String[]{"aRole"});
+        UserSession session = new UserSession("aUsername", new String[]{"aRole"});
 
         sut.add(session);
 
@@ -26,7 +26,7 @@ public class InMemorySessionRepositoryTest {
 
     @Test
     public void shouldLetInvalidateSessions() throws Exception {
-        UserSession session = new UserSession(new String[]{"aRole"});
+        UserSession session = new UserSession("aUsername", new String[]{"aRole"});
         sut.add(session);
 
         sut.invalidate(session);
@@ -36,7 +36,7 @@ public class InMemorySessionRepositoryTest {
 
     @Test
     public void shouldValidateSessions() throws Exception {
-        UserSession session = new UserSession(new String[]{"aRole"});
+        UserSession session = new UserSession("aUsername", new String[]{"aRole"});
         sut.add(session);
 
         boolean actual = sut.validate(session);
@@ -46,7 +46,7 @@ public class InMemorySessionRepositoryTest {
 
     @Test
     public void shouldNotValidateSessionsWhenDoesNotExist() throws Exception {
-        UserSession session = new UserSession(new String[]{"aRole"});
+        UserSession session = new UserSession("aUsername", new String[]{"aRole"});
 
         boolean actual = sut.validate(session);
 
@@ -55,7 +55,7 @@ public class InMemorySessionRepositoryTest {
 
     @Test
     public void shouldNotValidateSessionsWhenHasExpired() throws Exception {
-        UserSession session = new UserSession(new String[]{"aRole"}, -1);
+        UserSession session = new UserSession("aUsername", new String[]{"aRole"}, -1);
         sut.add(session);
 
         boolean actual = sut.validate(session);
