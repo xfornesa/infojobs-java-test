@@ -1,6 +1,6 @@
-package com.prunatic.domain.web;
+package com.prunatic.domain.cms;
 
-import com.prunatic.domain.web.Page;
+import com.prunatic.domain.cms.Page;
 
 public interface PageRepository {
     void add(Page page);

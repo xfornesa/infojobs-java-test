@@ -9,9 +9,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class CredentialsAuthenticateServiceTest {
+public class CredentialsAuthenticationServiceTest {
 
-    private CredentialsAuthenticateService sut;
+    private CredentialsAuthenticationService sut;
     private UserRepository userRepository;
     private UserSessionRepository sessionRepository;
     private String aUsername;
@@ -23,7 +23,7 @@ public class CredentialsAuthenticateServiceTest {
         initUserRepository();
         initUserSessionRepository();
 
-        sut = new CredentialsAuthenticateService(userRepository, sessionRepository);
+        sut = new CredentialsAuthenticationService(userRepository, sessionRepository);
     }
 
     private void initUserRepository() {

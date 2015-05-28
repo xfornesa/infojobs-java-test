@@ -8,9 +8,9 @@ import com.prunatic.infrastructure.persistence.user.InMemoryUserRepository;
 import com.prunatic.domain.user.User;
 import com.prunatic.domain.user.UserCredentials;
 import com.prunatic.domain.user.UserRepository;
-import com.prunatic.infrastructure.persistence.web.InMemoryPageRepository;
-import com.prunatic.domain.web.Page;
-import com.prunatic.domain.web.PageRepository;
+import com.prunatic.infrastructure.persistence.cms.InMemoryPageRepository;
+import com.prunatic.domain.cms.Page;
+import com.prunatic.domain.cms.PageRepository;
 import com.prunatic.infrastructure.persistence.authentication.InMemorySessionRepository;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
@@ -27,7 +27,7 @@ public class DefinitionSteps {
     private UserRepository userRepository;
     private PageRepository pageRepository;
     private UserSessionRepository sessionRepository;
-    private CredentialsAuthenticateService authenticationService;
+    private CredentialsAuthenticationService authenticationService;
     private PageAuthorizationService authorizationService;
     private UserSession currentSession = null;
     private Page currentBrowsePage = null;
@@ -40,7 +40,7 @@ public class DefinitionSteps {
         userRepository = new InMemoryUserRepository();
         pageRepository = new InMemoryPageRepository();
         sessionRepository = new InMemorySessionRepository();
-        authenticationService = new CredentialsAuthenticateService(userRepository, sessionRepository);
+        authenticationService = new CredentialsAuthenticationService(userRepository, sessionRepository);
         authorizationService = new PageAuthorizationService(sessionRepository);
     }
 

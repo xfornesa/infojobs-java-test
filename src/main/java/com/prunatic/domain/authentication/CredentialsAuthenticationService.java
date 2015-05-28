@@ -4,12 +4,12 @@ import com.prunatic.domain.user.User;
 import com.prunatic.domain.user.UserCredentials;
 import com.prunatic.domain.user.UserRepository;
 
-public class CredentialsAuthenticateService {
+public class CredentialsAuthenticationService {
 
     private UserRepository userRepository;
     private UserSessionRepository sessionRepository;
 
-    public CredentialsAuthenticateService(UserRepository userRepository, UserSessionRepository sessionRepository) {
+    public CredentialsAuthenticationService(UserRepository userRepository, UserSessionRepository sessionRepository) {
 
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;

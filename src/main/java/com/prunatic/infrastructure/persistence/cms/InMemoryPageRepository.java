@@ -1,7 +1,7 @@
-package com.prunatic.infrastructure.persistence.web;
+package com.prunatic.infrastructure.persistence.cms;
 
-import com.prunatic.domain.web.Page;
-import com.prunatic.domain.web.PageRepository;
+import com.prunatic.domain.cms.Page;
+import com.prunatic.domain.cms.PageRepository;
 
 import java.util.ArrayList;
 import java.util.List;

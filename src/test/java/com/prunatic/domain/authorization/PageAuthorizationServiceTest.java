@@ -1,7 +1,7 @@
 package com.prunatic.domain.authorization;
 
 import com.prunatic.domain.authentication.UserSessionRepository;
-import com.prunatic.domain.web.Page;
+import com.prunatic.domain.cms.Page;
 import com.prunatic.domain.authentication.UserSession;
 import org.junit.Before;
 import org.junit.Test;
